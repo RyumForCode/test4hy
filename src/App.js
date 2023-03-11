@@ -1,23 +1,25 @@
-import logo from './logo.svg';
+import { useEffect, useState } from 'react';
+import { consoleData, getData, removeData } from './api';
 import './App.css';
 
 function App() {
+
+  const [data, setData] = useState();
+
+  const buttonClick = async() => {
+    const tempData = await getData();
+    setData(tempData);
+  }
+
+  const removebutton = (id) => {
+    removeData(id);
+    // setData([...data.filter((item) => item.id !== id)]);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <button onClick = {() => {buttonClick()}}>button</button>
+      {data?.map((val) => <div onClick = {() => {removebutton(val.id)}} key = {val.id}>{val.id}: {val.title}</div>)}
     </div>
   );
 }
